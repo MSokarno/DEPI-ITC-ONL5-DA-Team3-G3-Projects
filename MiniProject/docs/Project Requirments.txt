@@ -1,0 +1,5 @@
+3. Online Store Database with Joins
+o Concepts used: Primary / foreign keys, INNER / LEFT JOIN, basic normalization, CREATE
+TABLE & INSERT.
+o Idea: Design 4 related tables (customers, products, orders, order items) and write join
+queries for a full order report

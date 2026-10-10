@@ -35,3 +35,10 @@ The main relationship between the core entities can be represented as:
 `Customers → Orders → Order Items → Products`
 
 The excluded seller-related table is **preserved and documented for reference** but is not included in the current database implementation.
+
+
+## Project Data Setup
+Data files are excluded from Git to prevent repository bloat. 
+1. Download the contents of our [Shared Google Drive Link Here].
+2. Place the folders directly into your local directory at:
+   `MiniProject/data/`

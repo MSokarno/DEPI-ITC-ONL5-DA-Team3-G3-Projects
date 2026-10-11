@@ -42,3 +42,24 @@ Data files are excluded from Git to prevent repository bloat.
 1. Download the contents of our [Shared Google Drive Link Here].
 2. Place the folders directly into your local directory at:
    `MiniProject/data/`
+
+
+## How we worked? who did what? what we achived and learned?
+
+Dataset Creation
+Sokarno: from 9 tables he created 4
+
+ERD
+Al-Nabawi: Created ERD for the orignal Dataset 
+so we can explain how and why we choosed this dataset
+
+Data Cleaning & Preparing
+Elgmal: Cleaned the data and created the notebook
+
+......
+
+Work Review
+Sokarno: Reviewed ERD, .....
+
+Video & Documentaion
+Explaining

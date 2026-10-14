@@ -1,0 +1,108 @@
+table customers
+	lineageTag: 9a8ccce3-e3c4-4f48-bdf8-9bd6a69b9a1a
+
+	measure 'Total Sales' =
+			
+			CALCULATE (
+			    SUMX ( order_items, order_items[quantity] * order_items[unit_price] ),
+			    orders[order_status] = "delivered"
+			)
+		lineageTag: c43aa29c-3800-475e-a801-32cc4d3b2a6c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Delivered Orders' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( orders[order_id] ),
+			    orders[order_status] = "delivered"
+			)
+		formatString: 0
+		lineageTag: cc1ffc67-46e0-4061-9f17-0bc2a5d9b6b2
+
+	measure 'Freight Value' =
+			
+			CALCULATE (
+			    SUMX ( order_items, order_items[quantity] * order_items[unit_freight_value] ),
+			    orders[order_status] = "delivered"
+			)
+		lineageTag: 359eaeb3-28dc-43e4-8f1f-dfba5f898933
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Revenue' = [Total Sales] + [Freight Value]
+		lineageTag: dc97d042-3b66-4fb4-85d1-aa1b56d46f28
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Order Value' = DIVIDE ( [Total Sales], [Delivered Orders] )
+		formatString: 0.00
+		lineageTag: 865a89dd-0d1e-411c-b1e9-99703e876121
+
+	measure 'Cancellation Rate' =
+			
+			DIVIDE (
+			    CALCULATE ( DISTINCTCOUNT ( orders[order_id] ), orders[order_status] = "canceled" ),
+			    DISTINCTCOUNT ( orders[order_id] )
+			)
+		lineageTag: 3b011454-f064-4c63-8166-3d3e6186420c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column customer_id
+		dataType: string
+		lineageTag: d4212762-5e2b-47fb-9e04-1f4607d8d1bb
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_unique_id
+		dataType: string
+		lineageTag: f1777a08-9ed9-4293-8c45-340a795e0266
+		summarizeBy: none
+		sourceColumn: customer_unique_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_zip_code_prefix
+		dataType: int64
+		formatString: 0
+		lineageTag: a51f6400-16d3-4eab-b6a1-619aa64791fa
+		summarizeBy: none
+		sourceColumn: customer_zip_code_prefix
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_city
+		dataType: string
+		lineageTag: 251996ee-ae1b-4122-b3b0-ffc0d7507211
+		summarizeBy: none
+		sourceColumn: customer_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_state
+		dataType: string
+		lineageTag: ba58a330-f312-4b19-809c-63ab23508e45
+		summarizeBy: none
+		sourceColumn: customer_state
+
+		annotation SummarizationSetBy = Automatic
+
+	partition customers = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Admin\Downloads\Mini Project\After\ecommerce_cleaned.xlsx"), null, true),
+				    clean_customers_Sheet = Source{[Item="clean_customers",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(clean_customers_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"customer_id", type text}, {"customer_unique_id", type text}, {"customer_zip_code_prefix", Int64.Type}, {"customer_city", type text}, {"customer_state", type text}, {"geolocation_zip_code_prefix", Int64.Type}, {"geolocation_city", type text}, {"geolocation_state", type text}, {"city_check", type text}, {"state_check", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"geolocation_zip_code_prefix", "geolocation_city", "geolocation_state", "city_check", "state_check"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

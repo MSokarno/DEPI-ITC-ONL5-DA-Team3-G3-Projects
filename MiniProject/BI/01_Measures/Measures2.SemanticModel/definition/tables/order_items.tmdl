@@ -1,0 +1,85 @@
+table order_items
+	lineageTag: 06c5afdb-a1ff-4af9-b0ad-7c5d52073ad3
+
+	column order_id
+		dataType: string
+		lineageTag: 9cb38ebe-8f2e-4ed1-8422-1d9ee8f9aebf
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: string
+		lineageTag: 0f62a7e9-2980-4881-bfae-b9a5e0a98872
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 41ced37e-14ec-4137-bf27-c1c52ca8d6fa
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column shipping_limit_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 58c986ec-229b-4de1-86b3-72f9c01277be
+		summarizeBy: none
+		sourceColumn: shipping_limit_date
+
+		variation Variation
+			isDefault
+			relationship: 2cf721fb-0b7d-4e57-a2db-255b630ed294
+			defaultHierarchy: LocalDateTable_66e4b976-5c22-4fe1-8ad8-51e8c897e505.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price
+		dataType: double
+		lineageTag: 1cb76ce5-c27c-471d-8a73-cc7035b006fe
+		summarizeBy: sum
+		sourceColumn: unit_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unit_freight_value
+		dataType: double
+		lineageTag: c2718564-beb8-4229-8c83-32813bc11393
+		summarizeBy: sum
+		sourceColumn: unit_freight_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column item_flag
+		dataType: string
+		lineageTag: 725ecee9-0ccb-48fb-8b4f-376edc7d55a0
+		summarizeBy: none
+		sourceColumn: item_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	partition order_items = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Admin\Downloads\Mini Project\After\ecommerce_cleaned.xlsx"), null, true),
+				    clean_order_items_Sheet = Source{[Item="clean_order_items",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(clean_order_items_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"order_id", type text}, {"product_id", type text}, {"quantity", Int64.Type}, {"shipping_limit_date", type datetime}, {"unit_price", type number}, {"unit_freight_value", type number}, {"item_flag", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

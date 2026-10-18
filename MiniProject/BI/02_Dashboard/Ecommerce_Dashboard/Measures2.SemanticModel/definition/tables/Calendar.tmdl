@@ -1,0 +1,191 @@
+table Calendar
+	lineageTag: c562951d-c244-44ea-9ccd-8a1658e9d493
+
+	measure 'Sales YTD' =
+			
+			TOTALYTD ( [Total Sales], 'Calendar'[Date] )
+		lineageTag: 01afb5a1-bd82-41fc-bb03-4417d1ca48d8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales Last Month' =
+			
+			CALCULATE ( [Total Sales], DATEADD ( 'Calendar'[Date], -1, MONTH ) )
+		lineageTag: 78b81049-e792-4d30-9589-4e66361c3d32
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales MoM %' =
+			
+			VAR Prev = [Sales Last Month]
+			RETURN
+			    IF (
+			        HASONEVALUE ( 'Calendar'[Year-Month] )
+			            && Prev >= 1000
+			            && NOT ISBLANK ( [Total Sales] ),
+			        DIVIDE ( [Total Sales] - Prev, Prev )
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ab1e4377-6334-4459-997d-f87b9153ec62
+
+	measure 'Units Sold' =
+			
+			CALCULATE (
+			    SUM ( order_items[quantity] ),
+			    orders[order_status] = "delivered"
+			)
+		formatString: 0
+		lineageTag: fc887f7d-f00f-4700-905a-c15796143030
+
+	measure 'Products Sold' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( order_items[product_id] ),
+			    orders[order_status] = "delivered"
+			)
+		formatString: 0
+		lineageTag: 4d78f967-ed6c-4b3f-b997-a9769b9c648d
+
+	measure 'Sales % of Total' =
+			
+			DIVIDE (
+			    [Total Sales],
+			    CALCULATE ( [Total Sales], ALLSELECTED ( products ) )
+			)
+		lineageTag: 31300dec-f33f-4959-a4fa-d280d88ce503
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Unique Customers' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( customers[customer_unique_id] ),
+			    CROSSFILTER ( customers[customer_id], orders[customer_id], BOTH ),
+			    orders[order_status] = "delivered"
+			)
+		formatString: 0.00
+		lineageTag: 4081c893-2eff-44d4-8103-0dea8d8a5832
+
+	measure 'Repeat Customers %' =
+			
+			VAR CustOrders =
+			    ADDCOLUMNS (
+			        VALUES ( customers[customer_unique_id] ),
+			        "@Orders",
+			            CALCULATE (
+			                DISTINCTCOUNT ( orders[order_id] ),
+			                orders[order_status] = "delivered"
+			            )
+			    )
+			RETURN
+			    DIVIDE (
+			        COUNTROWS ( FILTER ( CustOrders, [@Orders] > 1 ) ),
+			        [Unique Customers]
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ede25cf5-fb85-476f-b273-e86b21814eef
+
+	measure 'Avg Delivery Days' =
+			
+			AVERAGEX (
+			    FILTER (
+			        orders,
+			        orders[order_status] = "delivered"
+			            && orders[has_status_conflict] = 0
+			            && NOT ISBLANK ( orders[order_delivered_customer_date] )
+			    ),
+			    orders[order_delivered_customer_date] - orders[order_purchase_timestamp]
+			)
+		lineageTag: 74ce0efb-8f7b-4965-bad1-886957757d74
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'On-Time Delivery %' =
+			
+			VAR Delivered =
+			    FILTER (
+			        orders,
+			        orders[order_status] = "delivered"
+			            && orders[has_status_conflict] = 0
+			            && NOT ISBLANK ( orders[order_delivered_customer_date] )
+			    )
+			VAR OnTime =
+			    FILTER (
+			        Delivered,
+			        INT ( orders[order_delivered_customer_date] )
+			            <= INT ( orders[order_estimated_delivery_date] )
+			    )
+			RETURN
+			    DIVIDE ( COUNTROWS ( OnTime ), COUNTROWS ( Delivered ) )
+		lineageTag: bca1f607-6940-465f-9077-c8a032e4b8d0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		formatString: dd mmmm\, yyyy
+		lineageTag: 472a74fc-1b9f-49de-86d1-257782b20a5d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: 9ce85368-44e8-4c22-82ad-5b89edb051a5
+			defaultHierarchy: LocalDateTable_21e41fd6-d053-473c-abfe-5cda9c29416c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Year
+		formatString: 0
+		lineageTag: ed4f76ca-defd-4c92-aec8-c51df41ceaf6
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		formatString: 0
+		lineageTag: 66c72291-d8d5-46d0-b2a9-dada04918814
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		lineageTag: dae8f2fb-07ed-4027-a7ed-8a203c6b6725
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month]
+		sortByColumn: 'Month Number'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year-Month
+		lineageTag: e6a3c547-d914-414a-b394-06796ca98660
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year-Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendar = calculated
+		mode: import
+		source =
+				
+				ADDCOLUMNS (
+				    CALENDAR (
+				        DATE ( YEAR ( MIN ( orders[Order Date] ) ), 1, 1 ),
+				        DATE ( YEAR ( MAX ( orders[Order Date] ) ), 12, 31 )
+				    ),
+				    "Year", YEAR ( [Date] ),
+				    "Month Number", MONTH ( [Date] ),
+				    "Month", FORMAT ( [Date], "MMM" ),
+				    "Year-Month", FORMAT ( [Date], "YYYY-MM" )
+				)
+
+	annotation PBI_Id = f572178e238947d49f8ebd39820731f3
+

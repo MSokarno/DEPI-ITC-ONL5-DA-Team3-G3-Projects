@@ -1,0 +1,188 @@
+table customers
+	lineageTag: 9a8ccce3-e3c4-4f48-bdf8-9bd6a69b9a1a
+
+	measure 'Total Sales' =
+			
+			CALCULATE (
+			    SUMX ( order_items, order_items[quantity] * order_items[unit_price] ),
+			    orders[order_status] = "delivered"
+			)
+		lineageTag: c43aa29c-3800-475e-a801-32cc4d3b2a6c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Delivered Orders' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( orders[order_id] ),
+			    orders[order_status] = "delivered"
+			)
+		formatString: 0.00
+		lineageTag: cc1ffc67-46e0-4061-9f17-0bc2a5d9b6b2
+
+	measure 'Freight Value' =
+			
+			CALCULATE (
+			    SUMX ( order_items, order_items[quantity] * order_items[unit_freight_value] ),
+			    orders[order_status] = "delivered"
+			)
+		lineageTag: 359eaeb3-28dc-43e4-8f1f-dfba5f898933
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Revenue' = [Total Sales] + [Freight Value]
+		formatString: 0.0
+		lineageTag: dc97d042-3b66-4fb4-85d1-aa1b56d46f28
+
+	measure 'Avg Order Value' = DIVIDE ( [Total Sales], [Delivered Orders] )
+		formatString: 0.00
+		lineageTag: 865a89dd-0d1e-411c-b1e9-99703e876121
+
+	measure 'Cancellation Rate' =
+			
+			DIVIDE (
+			    CALCULATE ( DISTINCTCOUNT ( orders[order_id] ), orders[order_status] = "canceled" ),
+			    DISTINCTCOUNT ( orders[order_id] )
+			)
+		formatString: 0
+		lineageTag: 3b011454-f064-4c63-8166-3d3e6186420c
+
+	measure 'Revenue MoM %' =
+			
+			VAR PrevRev = CALCULATE(customers[Total Revenue], DATEADD('Calendar'[Date], -1, MONTH))
+			RETURN DIVIDE(customers[Total Revenue] - PrevRev, PrevRev)
+		lineageTag: ad1a84dc-be8f-49dc-bffb-8a38cd680a61
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue YoY %' =
+			
+			VAR PrevRev = CALCULATE(customers[Total Revenue], SAMEPERIODLASTYEAR('Calendar'[Date]))
+			RETURN DIVIDE(customers[Total Revenue] - PrevRev, PrevRev)
+		lineageTag: 9e22d4e3-c203-4abf-96d1-ee89e5d93693
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue Peak' =
+			
+			VAR MaxRev = MAXX(ALLSELECTED('Calendar'[Year-Month]), customers[Total Revenue])
+			RETURN IF(customers[Total Revenue] = MaxRev , customers[Total Revenue])
+		lineageTag: 22e09f0a-94fa-494e-b280-02e6db1ebfd9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue Low' =
+			
+			VAR MinRev = MINX(ALLSELECTED('Calendar'[Year-Month]), [Total Revenue])
+			RETURN IF([Total Revenue] = MinRev, [Total Revenue] )
+		lineageTag: 6b16eb24-fe77-42d0-81aa-dfe73ba442db
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Revenue per Customer' = ```
+			DIVIDE(customers[Total Revenue], [Unique Customers])
+			
+			```
+		lineageTag: 4b8b6b7d-f1b0-42a7-992f-f9add4f76c4c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Top Category Share' =
+			
+			MAXX(
+			    VALUES(Products[product_category_name_english]),
+			    DIVIDE(customers[Total Revenue], CALCULATE(customers[Total Revenue], ALL(Products[product_category_name_english])))
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 466c1c88-0341-46b2-97c9-f5837e6a654a
+
+	measure 'Revenue Share %' =
+			
+			DIVIDE(
+			    [Total Revenue],
+			    CALCULATE([Total Revenue], ALL(Products[product_category_name_english]))
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4e773fcb-7fc0-40aa-bc31-6e05df7dca03
+
+	measure 'One-time Customer Share' =
+			
+			DIVIDE(
+			    COUNTROWS(
+			        FILTER(
+			            VALUES(Customers[customer_unique_id]),
+			            CALCULATE(DISTINCTCOUNT(Order_items[order_id])) = 1
+			        )
+			    ),
+			    [Unique Customers]
+			)
+		lineageTag: 25872e35-aab2-45ab-a188-bc2c041fd146
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column customer_id
+		dataType: string
+		lineageTag: d4212762-5e2b-47fb-9e04-1f4607d8d1bb
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_unique_id
+		dataType: string
+		lineageTag: f1777a08-9ed9-4293-8c45-340a795e0266
+		summarizeBy: none
+		sourceColumn: customer_unique_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_zip_code_prefix
+		dataType: int64
+		formatString: 0
+		lineageTag: a51f6400-16d3-4eab-b6a1-619aa64791fa
+		summarizeBy: none
+		sourceColumn: customer_zip_code_prefix
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_city
+		dataType: string
+		lineageTag: 251996ee-ae1b-4122-b3b0-ffc0d7507211
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: customer_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_state
+		dataType: string
+		lineageTag: ba58a330-f312-4b19-809c-63ab23508e45
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: customer_state
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country = "Brazil"
+		lineageTag: 563ea76d-0aa2-4432-927a-bdc475527e0d
+		dataCategory: Country
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition customers = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Admin\Downloads\Mini Project\After\ecommerce_cleaned.xlsx"), null, true),
+				    clean_customers_Sheet = Source{[Item="clean_customers",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(clean_customers_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"customer_id", type text}, {"customer_unique_id", type text}, {"customer_zip_code_prefix", Int64.Type}, {"customer_city", type text}, {"customer_state", type text}, {"geolocation_zip_code_prefix", Int64.Type}, {"geolocation_city", type text}, {"geolocation_state", type text}, {"city_check", type text}, {"state_check", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"geolocation_zip_code_prefix", "geolocation_city", "geolocation_state", "city_check", "state_check"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

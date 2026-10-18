@@ -1,0 +1,57 @@
+table 'Customer Type'
+	lineageTag: a2019d13-e253-497c-9bf2-d1c870997217
+
+	measure 'One-time Customers' =
+			
+			COUNTROWS(
+			    FILTER(
+			        VALUES(Customers[customer_unique_id]),
+			        CALCULATE(DISTINCTCOUNT(Order_items[order_id])) = 1
+			    )
+			)
+		formatString: 0
+		lineageTag: 364fd9f5-15a5-4515-afb8-7ba22130e6b6
+
+	measure 'Repeat Customers' =
+			
+			COUNTROWS(
+			    FILTER(
+			        VALUES(Customers[customer_unique_id]),
+			        CALCULATE(DISTINCTCOUNT(Order_items[order_id])) > 1
+			    )
+			)
+		formatString: 0
+		lineageTag: b7b8c516-6505-4bfa-8af1-f0b494be5ccd
+
+	measure 'Customers by Type' =
+			
+			SWITCH(
+			    SELECTEDVALUE('Customer Type'[Type]),
+			    "One-time", [One-time Customers],
+			    "Repeat", [Repeat Customers],
+			    BLANK()
+			)
+		lineageTag: e9bb005a-ab03-48c9-9925-96ed84448de5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Type
+		dataType: string
+		lineageTag: ad14cb42-20dc-49b3-aa19-55c9cb943aa1
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Customer Type' = m
+		mode: import
+		source =
+				let
+				  Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8s9L1S3JzE1VitWJVgpKLUhNLFGKjQUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Type = _t])
+				in
+				  Source
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

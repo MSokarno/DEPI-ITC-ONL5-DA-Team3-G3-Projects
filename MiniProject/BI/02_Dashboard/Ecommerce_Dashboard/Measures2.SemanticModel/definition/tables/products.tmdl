@@ -1,0 +1,120 @@
+table products
+	lineageTag: 11fe3cd4-f533-4256-96e9-374371e0e1ff
+
+	measure 'Categories Count' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(Products[product_category_name_english]),
+			    Order_items[quantity] > 0
+			)
+		formatString: 0
+		lineageTag: 685a87d5-ef56-423b-805c-a70757b83c21
+
+	column product_id
+		dataType: string
+		lineageTag: 52c45e67-765f-4ebd-a6bd-50c13f3eff68
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_category_name
+		dataType: string
+		lineageTag: 44b3667a-b1f6-404e-8c3d-15c631acb039
+		summarizeBy: none
+		sourceColumn: product_category_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_category_name_english
+		dataType: string
+		lineageTag: 34e05d10-795c-47c8-ab15-9e1263e54013
+		summarizeBy: none
+		sourceColumn: product_category_name_english
+
+		annotation SummarizationSetBy = Automatic
+
+	column english_name_added_manually
+		dataType: int64
+		formatString: 0
+		lineageTag: dccd78be-f222-457b-92e9-25050a40c1d0
+		summarizeBy: none
+		sourceColumn: english_name_added_manually
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_name_lenght
+		dataType: string
+		lineageTag: 267313bd-c6ed-49f5-a787-8161066594af
+		summarizeBy: none
+		sourceColumn: product_name_lenght
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_description_lenght
+		dataType: string
+		lineageTag: 4b808e8f-5d3b-4741-8677-f60a2ea53e13
+		summarizeBy: none
+		sourceColumn: product_description_lenght
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_photos_qty
+		dataType: string
+		lineageTag: 4520d207-a7c9-42dd-a65e-8209c44996f1
+		summarizeBy: none
+		sourceColumn: product_photos_qty
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_weight_g
+		dataType: int64
+		formatString: 0
+		lineageTag: c43ed016-b99c-4f03-8ae1-84ebe179a42a
+		summarizeBy: none
+		sourceColumn: product_weight_g
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_length_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: fc25a54c-ef7b-4152-9b2e-cd2fb3490e66
+		summarizeBy: none
+		sourceColumn: product_length_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_height_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: ad2a5c1c-03b1-4e1d-b540-aaf300f87f3f
+		summarizeBy: none
+		sourceColumn: product_height_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_width_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: e7e5dfb7-e6be-4644-97fe-2ff3babf51ba
+		summarizeBy: none
+		sourceColumn: product_width_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	partition products = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Admin\Downloads\Mini Project\After\ecommerce_cleaned.xlsx"), null, true),
+				    clean_products_Sheet = Source{[Item="clean_products",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(clean_products_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"product_id", type text}, {"product_category_name", type text}, {"product_category_name_english", type text}, {"english_name_added_manually", Int64.Type}, {"product_name_lenght", type any}, {"product_description_lenght", type any}, {"product_photos_qty", type any}, {"product_weight_g", Int64.Type}, {"product_length_cm", Int64.Type}, {"product_height_cm", Int64.Type}, {"product_width_cm", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

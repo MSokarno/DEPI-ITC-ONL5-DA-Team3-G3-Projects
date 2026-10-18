@@ -1,0 +1,99 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 50.2808297234977,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 50,
+            "y": 212.11884566690844
+          },
+          "nodeIndex": "customers",
+          "nodeLineageTag": "9a8ccce3-e3c4-4f48-bdf8-9bd6a69b9a1a",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 618.41040181545554,
+            "y": 34.37869776912828
+          },
+          "nodeIndex": "order_items",
+          "nodeLineageTag": "06c5afdb-a1ff-4af9-b0ad-7c5d52073ad3",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 334.202255104609,
+            "y": 85.886687578610889
+          },
+          "nodeIndex": "orders",
+          "nodeLineageTag": "bf14d01b-4373-4ab6-bc9f-476580c7500e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 902.62216291713639,
+            "y": -50
+          },
+          "nodeIndex": "products",
+          "nodeLineageTag": "11fe3cd4-f533-4256-96e9-374371e0e1ff",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 782.89651909911493,
+            "y": 347.26699064449434
+          },
+          "nodeIndex": "Calendar",
+          "nodeLineageTag": "c562951d-c244-44ea-9ccd-8a1658e9d493",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1370.6221629171364,
+            "y": 246.6334953222472
+          },
+          "nodeIndex": "Customer Type",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 79.553182037699813,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

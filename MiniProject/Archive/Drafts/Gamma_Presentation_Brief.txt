@@ -1,0 +1,98 @@
+GAMMA AI PRESENTATION BRIEF
+Project: Olist Brazilian E-Commerce Data Analysis Mini Project
+Team: DEPI, ITC Online Group 3, Team 3
+
+Create a polished, professional presentation that explains the project journey from source-data discovery to database implementation, Power BI measures, dashboard, findings, limitations, and lessons learned. The audience should understand what each stage accomplished, why it mattered, who contributed, and how the stages connect. Use a clear narrative, concise slide text, diagrams, an understandable data workflow, an ERD/database diagram where appropriate, and dashboard visuals if available. Do not invent screenshots, code, metrics, decisions, or contributions.
+
+PROJECT WORKFLOW AND CONTRIBUTIONS
+
+1. Dataset discovery and database creation
+Mohamed Sokarno
+- Found the Brazilian E-Commerce Public Dataset by Olist on Kaggle.
+- Helped shape the data into four target tables: Customers, Orders, Order Items, and Products.
+- Created the SQL database, schemas, and tables, and loaded data using SQL and joins.
+- Investigated and corrected text encoding issues by converting data to UTF-8.
+- Considered normalization, denormalization, and redundancy in the target design.
+- A design note says payment_installments was converted from a numeric installment count to a Boolean to reduce redundancy. Present this only if the final implementation confirms it, and explain the information trade-off.
+
+2. Source ERD and data dictionary
+Mahmoud Al-Nabawi
+- Created an ERD for the original dataset to explain its structure and support the dataset-selection rationale.
+- Contributed to the data dictionary.
+- Distinguish the original-source ERD from the final four-table database ERD if both are shown.
+
+3. Data cleaning and preparation
+Mohamed El-Gml
+- Used Python and created a notebook for cleaning and preparing the data.
+- Reported tasks include removing empty rows and duplicates, standardizing column names/text, handling missing values, correcting data types, and checking unusual values.
+- Checked cross-table relationships such as orders referencing existing customers and order items referencing existing products.
+- Flagged suspicious records for review instead of automatically deleting them.
+- Key lesson: data quality includes relationships between tables and consistency across dates, not just clean individual cells.
+- Do not claim specific error counts unless supported by the generated quality report.
+
+4. Power BI measures and calendar table
+Mahmoud Saqr
+- Created a Calendar table and Power BI measures.
+- Measures cover sales, freight, revenue, average order value, delivered orders, units, products, unique/repeat customers, YTD and month-over-month comparisons, cancellations, and delivery performance.
+- Unique-customer logic uses customer_unique_id rather than customer_id.
+- A guarded MoM measure suppresses results when the prior-month sales base is below 1,000, as described in the project notes.
+- Validate the final DAX definitions before presenting detailed formula behavior.
+
+5. Power BI dashboard
+Mostafa Salem
+- Built a four-page report covering January 2017 to August 2018.
+- Home: navigation to the report pages.
+- Executive Overview: revenue, sales, freight, delivered orders, average order value, unique customers, monthly trend, geography, payment method, and slicers.
+- Products & Customers: units, categories, revenue per customer, repeat-customer rate, top categories, customer geography, and monthly/YTD/MoM sales.
+- Operations & Delivery: delivery days, late-delivery rate, late orders, on-time rate, location comparison, and a decomposition tree.
+- Added or used late/on-time logic and time-intelligence measures as documented in the project notes.
+
+6. Project review, coordination, and documentation
+Mohamed Sokarno
+- Reviewed the ERD, measures, and dashboard to help align the technical components.
+- Created the repository’s schema folder and coordinated consistency and delivery.
+- Organized documentation and is responsible for explaining the end-to-end project narrative.
+- Present this as review, coordination, and documentation work, distinct from direct implementation tasks owned by other contributors.
+
+REPORTED FINDINGS TO VERIFY AGAINST THE FINAL DASHBOARD
+The draft reports approximately 96.5K delivered orders, 93.4K unique customers, 15.4M total revenue (13.2M product sales and 2.2M freight), 110K units, 3% repeat customers, 12.6 average delivery days, 8.1% late delivery, and 91.9% on-time delivery. It also reports that São Paulo state contributes about 38% of revenue and that the top five product categories account for around 39%. Treat these as draft figures: verify them in the final PBIX, state the currency, and make sure date ranges and filters match before presenting them.
+
+LIMITATIONS AND LESSONS
+- The draft conflicts on source scope: it says 8 of 9 source tables were used, but its inventory marks four as used and the final database has four target tables. Do not claim eight source tables were used unless the team verifies the lineage.
+- Some location charts may label cities as states.
+- Tiny municipalities or categories with very few orders can produce misleading delivery averages or late rates. Explain this and recommend a minimum sample threshold.
+- Delivery after the estimated date does not prove whether the cause is carrier performance or inaccurate estimates.
+- Business recommendations are hypotheses to investigate, not causal conclusions proven by descriptive analysis.
+- The dataset does not provide real names for every customer or product; identifiers and available attributes are used.
+
+RECOMMENDED PRESENTATION STORY
+1. Project objective and why this dataset was chosen.
+2. Original dataset and its structure.
+3. Data cleaning and quality checks.
+4. Source ERD and final database schema, including the key relationships.
+5. SQL implementation and validation.
+6. Power BI measures and KPI definitions.
+7. Four-page dashboard walkthrough.
+8. Main findings and potential business implications.
+9. Limitations, trade-offs, and lessons learned.
+10. Team contributions and acknowledgements.
+
+CREDITS SLIDES
+At the end, create one or two slides dedicated to credits. Give a concise, fair summary of each contributor and their actual role:
+- Mohamed Sokarno: dataset discovery/database creation, SQL schema and loading, encoding correction, project review, repository organization, coordination, and documentation/presentation narrative.
+- Mahmoud Al-Nabawi: source-dataset ERD and contribution to the data dictionary.
+- Mohamed El-Gml: Python data cleaning/preparation and notebook.
+- Mahmoud Saqr: Power BI measures and Calendar table.
+- Mostafa Salem: four-page Power BI dashboard.
+- Mohamed Sokarno: Team Leader.
+- Eman Ghanem: DEPI mentor and lecturer.
+- Esraa Yahia: ITC_ONL5_Dat3_G3 operator.
+- Mahmoud Raslan: ITC CEO.
+Keep project contributors separate from program acknowledgements. Do not imply that mentors or management directly implemented project components unless confirmed.
+
+DESIGN AND ACCURACY INSTRUCTIONS
+- Use a modern data/analytics visual style with readable charts, restrained text, and consistent typography.
+- Prefer process diagrams, a database relationship diagram, KPI callouts, and dashboard screenshots over dense paragraphs.
+- Include speaker notes or short presenter cues that explain each stage in plain language.
+- Make the presentation explain what was done, why it was done, what was achieved, and what was learned.
+- Do not invent missing evidence or resolve conflicting facts by guessing.

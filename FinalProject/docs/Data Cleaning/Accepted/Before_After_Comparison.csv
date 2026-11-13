@@ -1,0 +1,5 @@
+Metric,Before,After
+Rows,50000,50000
+Columns,151,93
+Null Cells,2396987,64815
+Duplicate Rows,0,0

@@ -1,0 +1,15 @@
+Column,Data_Type,Missing_Count,Missing_Percentage,Unique_Values
+Employment Length,string,1673,3.35,11
+Loan Title,string,26,0.05,271
+Policy Code,float64,3,0.01,2
+Amount Requested,float64,0,0.0,895
+Application Date,datetime64[ns],0,0.0,2953
+Debt-To-Income Ratio,Float64,0,0.0,8287
+Zip Code,string,0,0.0,894
+State,string,0,0.0,51
+Flag_Amount_Non_Positive,bool,0,0.0,2
+Flag_DTI_Negative,boolean,0,0.0,2
+Flag_DTI_Above_100,boolean,0,0.0,2
+Flag_DTI_Extreme,boolean,0,0.0,2
+Flag_Missing_Employment_Length,bool,0,0.0,2
+Flag_Missing_Loan_Title,bool,0,0.0,2

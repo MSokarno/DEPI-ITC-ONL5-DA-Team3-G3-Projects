@@ -1,0 +1,23 @@
+Column,Normalized_Value,Original_Variants,Variant_Count
+Loan Title,back on track,"['Back on Track', 'Back on track']",2
+Loan Title,business,"['Business', 'business']",2
+Loan Title,car repair,"['Car Repair', 'car repair']",2
+Loan Title,consolidate,"['CONSOLIDATE', 'Consolidate']",2
+Loan Title,consolidate debt,"['Consolidate Debt', 'Consolidate debt', 'consolidate debt']",3
+Loan Title,credit card payoff,"['Credit card payoff', 'credit card payoff']",2
+Loan Title,credit cards,"['Credit Cards', 'credit cards']",2
+Loan Title,debt consolidation,"['DEBT CONSOLIDATION', 'Debt Consolidation', 'Debt consolidation', 'debt consolidation']",4
+Loan Title,freedom,"['Freedom', 'freedom']",2
+Loan Title,home improvement,"['Home Improvement', 'Home improvement', 'home improvement']",3
+Loan Title,house,"['House ', 'house']",2
+Loan Title,major purchase,"['Major Purchase', 'Major purchase']",2
+Loan Title,motorcycle,"['MotorCycle', 'motorcycle ']",2
+Loan Title,moving,"['MOVING', 'moving']",2
+Loan Title,my loan,"['My Loan', 'my loan']",2
+Loan Title,other,"['Other', 'other']",2
+Loan Title,pay off credit cards,"['Pay off Credit Cards', 'pay off credit cards']",2
+Loan Title,personal,"['Personal', 'Personal ', 'personal']",3
+Loan Title,personal loan,"['Personal Loan', 'personal loan']",2
+Loan Title,small business,"['SMALL BUSINESS', 'Small Business', 'small business']",3
+Loan Title,student loan,"['Student Loan', 'student loan ']",2
+Loan Title,vacation,"['Vacation', 'vacation']",2

@@ -1,0 +1,10 @@
+Metric,Value
+Original Rows,50000
+Cleaned Rows,50000
+Original Columns,9
+Cleaned Columns,14
+Original Duplicate Rows,0
+Cleaned Duplicate Rows,0
+Original Missing Cells,35222
+Cleaned Missing Cells,1702
+Raw File Modified,No

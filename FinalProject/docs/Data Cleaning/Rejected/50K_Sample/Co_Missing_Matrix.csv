@@ -1,0 +1,10 @@
+,Amount Requested,Application Date,Loan Title,Risk_Score,Debt-To-Income Ratio,Zip Code,State,Employment Length,Policy Code
+Amount Requested,0,0,0,0,0,0,0,0,0
+Application Date,0,0,0,0,0,0,0,0,0
+Loan Title,0,0,3,3,0,0,0,0,0
+Risk_Score,0,0,3,33543,0,0,0,1386,1
+Debt-To-Income Ratio,0,0,0,0,0,0,0,0,0
+Zip Code,0,0,0,0,0,0,0,0,0
+State,0,0,0,0,0,0,0,0,0
+Employment Length,0,0,0,1386,0,0,0,1673,1
+Policy Code,0,0,0,1,0,0,0,1,3

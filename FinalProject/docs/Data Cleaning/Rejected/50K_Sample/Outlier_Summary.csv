@@ -1,0 +1,12 @@
+Issue,Affected_Rows,Percentage
+Debt-To-Income Ratio_IQR_Outlier,4437,8.87
+DTI_Negative,2115,4.23
+DTI_Above_100,1463,2.93
+Risk_Score_IQR_Outlier,341,0.68
+DTI_Extreme_Above_1000,318,0.64
+Amount Requested_IQR_Outlier,308,0.62
+Risk_Score_Outside_300_850,196,0.39
+Risk_Score_Zero,146,0.29
+Amount_Non_Positive,2,0.0
+Policy Code_IQR_Outlier,0,0.0
+Invalid_Application_Date,0,0.0

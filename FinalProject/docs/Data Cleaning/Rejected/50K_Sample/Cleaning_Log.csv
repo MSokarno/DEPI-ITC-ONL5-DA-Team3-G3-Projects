@@ -1,0 +1,16 @@
+Stage,Column,Issue,Action,Affected_Rows,Details
+Diagnosis,All Columns,Missing values,Reported and preserved as null,35222,No missing values were filled with zero.
+Diagnosis,All Rows,Exact duplicate rows,Reported only; no rows deleted,0,Deletion requires a documented decision.
+Diagnosis,Numeric Columns,IQR outliers,Flagged for review; original values preserved,5086,"IQR is a statistical screening rule, not proof of invalid data."
+Diagnosis,Categorical Columns,Inconsistent category variants,Reported for review,22,No categories merged automatically.
+Diagnosis,Application Date,Timeline coverage,Monthly and yearly issue rates calculated,50000,Low-volume periods are flagged.
+Cleaning,Loan Title,Leading/trailing or repeated whitespace,Trimmed and normalized whitespace,36,Text meaning and capitalization preserved.
+Cleaning,Application Date,Date type,Converted to datetime; unparseable values remain null,0,Original date values were not used to overwrite the raw file.
+Cleaning,Debt-To-Income Ratio,Percentage text format,Removed % symbol and converted to numeric,0,No values were filled. Negative and high values are preserved.
+Cleaning,Amount Requested,Numeric data type,Converted to numeric; invalid strings become null,0,No numeric imputation was performed.
+Cleaning,Risk_Score,Numeric data type,Converted to numeric; invalid strings become null,0,No numeric imputation was performed.
+Cleaning,Policy Code,Numeric data type,Converted to numeric; invalid strings become null,0,No numeric imputation was performed.
+Cleaning,State,Inconsistent letter case,Converted state codes to uppercase,0,No state values were inferred or replaced.
+Cleaning,All Columns,Missing values,Kept all missing values as null,35245,No automatic filling or row deletion.
+Cleaning,All Rows,Duplicate rows,Preserved duplicate rows,0,No deletion without documented approval.
+Cleaning,Risk_Score,High column missingness,Removed columns above the missingness cutoff,0,"Cutoff = min(average column missingness 7.83%, 39%) = 7.83%."

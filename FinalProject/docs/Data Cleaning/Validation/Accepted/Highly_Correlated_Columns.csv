@@ -1,0 +1,10 @@
+Column_1,Column_2,Correlation
+loan_amnt,funded_amnt,0.9998706192894142
+loan_amnt,funded_amnt_inv,0.9991459876713037
+funded_amnt,funded_amnt_inv,0.9992959073488885
+fico_range_low,fico_range_high,0.9999999460028415
+open_acc,num_sats,0.9990346628181835
+out_prncp,out_prncp_inv,0.9999989903032604
+total_pymnt,total_pymnt_inv,0.9993762395592086
+sec_app_fico_range_low,sec_app_fico_range_high,1.0
+hardship_amount,orig_projected_additional_accrued_interest,0.9999999999999994

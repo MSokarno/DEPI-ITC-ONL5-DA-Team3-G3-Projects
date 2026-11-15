@@ -1,0 +1,10 @@
+Column,Missing_Percentage,Average_Missing_Percentage,Applied_Cutoff_Percentage,Removed,Decision
+Risk_Score,67.086,7.827111111111112,,False,No automatic removal; apply only explicitly approved column rules
+Employment Length,3.3459999999999996,7.827111111111112,,False,No automatic removal; apply only explicitly approved column rules
+Loan Title,0.006,7.827111111111112,,False,No automatic removal; apply only explicitly approved column rules
+Policy Code,0.006,7.827111111111112,,False,No automatic removal; apply only explicitly approved column rules
+Amount Requested,0.0,7.827111111111112,,False,No automatic removal; apply only explicitly approved column rules
+Application Date,0.0,7.827111111111112,,False,No automatic removal; apply only explicitly approved column rules
+Debt-To-Income Ratio,0.0,7.827111111111112,,False,No automatic removal; apply only explicitly approved column rules
+Zip Code,0.0,7.827111111111112,,False,No automatic removal; apply only explicitly approved column rules
+State,0.0,7.827111111111112,,False,No automatic removal; apply only explicitly approved column rules

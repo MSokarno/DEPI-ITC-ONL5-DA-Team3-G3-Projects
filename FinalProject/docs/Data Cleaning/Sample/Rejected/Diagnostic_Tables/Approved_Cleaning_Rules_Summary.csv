@@ -1,0 +1,9 @@
+Rule,Rows_Flagged_For_Removal
+Amount_Requested_Non_Positive,2
+Missing_Loan_Title,26
+Missing_Risk_Score,33543
+Negative_DTI,2115
+Missing_Employment_Length,1673
+Rows removed by at least one approved rule (deduplicated),33873
+Extreme positive DTI outliers separated from main dataset,1012
+Rows retained in main cleaned dataset,15115

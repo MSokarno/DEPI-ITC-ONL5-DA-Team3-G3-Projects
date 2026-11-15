@@ -1,0 +1,3 @@
+Dataset,Rows,Columns,Null_Cells,Duplicate_Rows,Completely_Empty_Columns,Constant_Columns
+Before,50000,151,2400197,0,1,1
+After,50000,93,68186,0,0,0

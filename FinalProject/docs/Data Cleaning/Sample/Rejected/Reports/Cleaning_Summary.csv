@@ -1,0 +1,13 @@
+Metric,Value
+Original Rows,50000
+Cleaned Rows,50000
+Original Columns,9
+Cleaned Columns,18
+Original Duplicate Rows,0
+Cleaned Duplicate Rows,0
+Original Missing Cells,35222
+Cleaned Missing Cells,35245
+Raw File Modified,No
+Main Cleaned Rows,15115
+Extreme DTI Rows,1012
+DTI IQR Upper Bound,79.695
